@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Password Manager</title>
+    {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
+
+    <style>
+      .navbar-custom {
+        background-color: #2c3e50;
+      }
+      .btn-custom {
+        background-color: #3498db;
+        border-color: #3498db;
+      }
+
+      .form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        max-width: 500px;
+        background-color: #2c3e50;
+        padding: 20px;
+        border-radius: 20px;
+        position: relative;
+        color: white;
+      }
+
+      .title {
+        font-size: 28px;
+        font-weight: 600;
+        letter-spacing: -1px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding-left: 30px;
+      }
+
+      .title::before,
+      .title::after {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        border-radius: 50%;
+        left: 0px;
+        background-color: royalblue;
+      }
+
+      .title::before {
+        width: 18px;
+        height: 18px;
+        background-color: royalblue;
+      }
+
+      .title::after {
+        width: 18px;
+        height: 18px;
+        animation: pulse 1s linear infinite;
+      }
+
+      .submit {
+        border: none;
+        outline: none;
+        background-color: royalblue;
+        padding: 10px;
+        border-radius: 10px;
+        color: #fff;
+        font-size: 16px;
+        transform: 0.3s ease;
+      }
+
+      .submit:hover {
+        background-color: rgb(56, 90, 194);
+      }
+
+      @keyframes pulse {
+        from {
+          transform: scale(0.9);
+          opacity: 1;
+        }
+
+        to {
+          transform: scale(1.8);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+      <div class="container">
+        <a class="navbar-brand" href="/sites">Password Manager</a>
+      </div>
+    </nav>
+    <div class="container mt-3">
+      <a class="btn btn-primary btn-custom" href="/sites" role="button"
+        >Retour</a
+      >
+    </div>
+
+    <div class="h-100 d-flex align-items-center justify-content-center mt-3">
+      <form
+        action="{% if site %}{% url 'editSite' idSite=site.id %}{% else %}{% url 'addSite' %}{% endif %}"
+        method="post"
+        class="form"
+      >
+        {% if site %}
+        <span class="title">Modifier un site</span>
+        {% else %}
+        <span class="title">Ajouter un site</span>
+        {% endif %} 
+        {% csrf_token %}
+        <div class="container">
+          <div class="row justify-content-center">
+            {% bootstrap_form form %}
+            {% if site %} {% bootstrap_button "Modifier" button_type="submit" button_class="btn btn-primary" %}
+            {% else %} 
+            {% bootstrap_button "Ajouter" button_type="submit" button_class="btn btn-primary" %}
+            {% endif %}
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

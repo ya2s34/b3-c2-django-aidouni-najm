@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Password Manager</title>
+    {% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
+    <style>
+      .navbar-custom {
+        background-color: #2c3e50;
+      }
+      .btn-custom {
+        background-color: #3498db;
+        border-color: #3498db;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+      <div class="container">
+        <a class="navbar-brand" href="/sites">Password Manager</a>
+      </div>
+    </nav>
+
+    <div class="container mt-3 mb-5">
+      <a class="btn btn-primary btn-custom mb-3" href="/sites/add" role="button"
+        >Ajouter un Site</a
+      >
+      {% if sites %}
+      <h3>Vos Sites</h3>
+      <div class="table-responsive-vertical shadow-z-1">
+        <table id="table" class="table table-hover table-mc-light-blue">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom</th>
+              <th>URL</th>
+              <th>Description</th>
+              <th>Identifiant</th>
+              <th>Mot de Passe</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for site in sites %}
+            <tr>
+              <th>{{ forloop.counter }}</th>
+              <td>{{ site.nom }}</td>
+              <td>{{ site.url }}</td>
+              <td>{{ site.description }}</td>
+              <td>{{ site.identifiant }}</td>
+              <td>{{ site.password }}</td>
+              <td>
+                <a
+                  href="{% url 'editSite' idSite=site.id %}"
+                  class="btn btn-secondary"
+                  >Modifier</a
+                >
+                <a
+                  href="{% url 'deleteSite' idSite=site.id %}"
+                  class="btn btn-danger delete-btn"
+                  data-bs-toggle="modal"
+                  data-bs-target="#deleteConfirmationModal"
+                  >Supprimer</a
+                >
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {% else %}
+      <div class="alert alert-info" role="alert">
+        Pas de site enregistré. Ajoutez-en pour gérer vos mots de passe.
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="deleteConfirmationModal"
+      tabindex="-1"
+      aria-labelledby="deleteConfirmationModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteConfirmationModalLabel">
+              Confirmation de Suppression
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            Êtes-vous sûr de vouloir supprimer ce site ?
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Annuler
+            </button>
+            <a id="deleteLink" href="#" class="btn btn-danger">Supprimer</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const deleteButtons = document.querySelectorAll(".delete-btn");
+      const deleteLink = document.getElementById("deleteLink");
+
+      deleteButtons.forEach((button) => {
+        button.addEventListener("click", function (event) {
+          // Empêcher le comportement par défaut du lien
+          event.preventDefault();
+          // Récupérer l'URL de suppression depuis l'attribut href
+          const deleteUrl = button.getAttribute("href");
+          // Mettre à jour le lien de suppression dans la boîte de dialogue
+          deleteLink.setAttribute("href", deleteUrl);
+        });
+      });
+    </script>
+  </body>
+</html>
