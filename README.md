@@ -1,6 +1,6 @@
 # b3-c2-django-aidouni-najm
 
-Ressenti : Nous avons beaucoup aimé découvrir Django à travers ce projet. Sa facilité d'utilisation et ses nombreuses options nous ont vraiment plu. Cela a été une expérience positive pour nous.
+Ressenti : Nous avons beaucoup aimé utiliser Django à travers ce projet. Sa facilité d'utilisation et ses nombreuses options nous ont vraiment plu. Cela a été une expérience positive pour nous.
 
 Installez les dépendances :
 
